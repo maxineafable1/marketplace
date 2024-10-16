@@ -25,7 +25,7 @@ export default function Input<T extends FieldValues>({
       {...register(name)}
       className={`
         py-2 px-3 rounded bg-inherit border border-neutral-500
-        hover:border-neutral-400
+        hover:border-neutral-400 text-sm
         focus-visible:outline outline-emerald-400 focus-visible:border-transparent
       `}
       autoFocus={autoFocus}

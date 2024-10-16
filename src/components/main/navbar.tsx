@@ -5,6 +5,7 @@ import { GoHomeFill } from "react-icons/go";
 import { FaPlus } from "react-icons/fa";
 import ProfileIcon from './profile-icon';
 import BtnLink from '../utils/btn-link';
+import NewListing from './new-listing';
 
 export default async function Navbar() {
   const session = await getSession()
@@ -24,11 +25,7 @@ export default async function Navbar() {
       <div className='flex items-center gap-4'>
         {session.id ? (
           <>
-            <BtnLink
-              href='/create'
-            >
-              <FaPlus /> Create new listing
-            </BtnLink>
+            <NewListing />
             <ProfileIcon />
           </>
         ) : (

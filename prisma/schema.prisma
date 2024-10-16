@@ -21,4 +21,41 @@ model User {
   password  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Post {
+  id       Int         @id @default(autoincrement())
+  title    String      @db.VarChar(200)
+  desc     String      @db.Text
+  price    Decimal     @db.Money
+  user     User        @relation(fields: [userId], references: [id])
+  userId   String      @db.Uuid
+  category String      @db.VarChar(50)
+  images   PostImage[]
+  vehicle  Vehicle?
+}
+
+model PostImage {
+  id     Int    @id @default(autoincrement())
+  image  String @db.Text
+  post   Post   @relation(fields: [postId], references: [id])
+  postId Int
+}
+
+model Vehicle {
+  id         Int     @id @default(autoincrement())
+  make       String  @db.VarChar(50)
+  model      String  @db.VarChar(50)
+  year       String  @db.VarChar(10)
+  mileage    Int     @db.Integer
+  type       String  @db.VarChar(50)
+  extColor   String  @db.VarChar(50)
+  intColor   String  @db.VarChar(50)
+  trans      String  @db.VarChar(50)
+  engine     String  @db.VarChar(50)
+  fuel       String  @db.VarChar(50)
+  cleanTitle Boolean @db.Boolean
+  post       Post    @relation(fields: [postId], references: [id])
+  postId     Int     @unique
 }
