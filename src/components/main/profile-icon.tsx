@@ -25,13 +25,13 @@ export default function ProfileIcon() {
       <button
         ref={btnRef}
         className={`
-          block mr-auto bg-emerald-100 rounded-full p-2 
-          hover:bg-emerald-200 hover:scale-105
-          focus-visible:outline outline-emerald-600
+          block bg-neutral-300 rounded-full p-2 
+          hover:bg-neutral-400 hover:scale-105
+          focus-visible:outline outline-green-600
         `}
         onClick={() => setIsOpen(true)}
       >
-        <FaUser className='fill-emerald-400' />
+        <FaUser className='fill-neutral-800' />
       </button>
       {isOpen && (
         <div

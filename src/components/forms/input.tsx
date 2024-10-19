@@ -3,14 +3,14 @@ import { FieldValues, Path, UseFormRegister } from 'react-hook-form'
 
 type InputProps<T extends FieldValues> = {
   register: UseFormRegister<T>
-  name: Path<T> 
+  name: Path<T>
   id: string
   placeholder?: string
   type?: 'text' | 'password'
   autoFocus?: boolean
 }
 
-export default function Input<T extends FieldValues>({ 
+export default function Input<T extends FieldValues>({
   register,
   name,
   id,
@@ -24,9 +24,9 @@ export default function Input<T extends FieldValues>({
       id={id}
       {...register(name)}
       className={`
-        py-2 px-3 rounded bg-inherit border border-neutral-500
+        py-2 px-3 rounded bg-inherit border border-neutral-800
         hover:border-neutral-400 text-sm
-        focus-visible:outline outline-emerald-400 focus-visible:border-transparent
+        focus-visible:outline outline-green-600 focus-visible:border-transparent
       `}
       autoFocus={autoFocus}
       placeholder={placeholder}

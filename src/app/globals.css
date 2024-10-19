@@ -6,3 +6,28 @@
 dialog::backdrop {
   background-color: rgba(0, 0, 0, 0.8);
 }
+
+@layer components {
+  .img-slide-btn {
+    @apply absolute z-20 top-0 bottom-0 p-2 transition-colors text-2xl text-white
+  }
+
+  .img-slide-btn:hover {
+    background-color: rgb(0 0 0 / 0.1);
+  }
+
+  .img-transition {
+    transition: translate 300ms ease-in-out;
+  }
+
+  .img-slider-circle-div {
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    translate: -50%;
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 0.25rem;
+    z-index: 20;
+  }
+}

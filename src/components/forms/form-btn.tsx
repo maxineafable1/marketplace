@@ -8,8 +8,8 @@ export default function FormBtn({ children }: FormBtnProps) {
   return (
     <button
       className={`
-        bg-emerald-400 py-3 font-semibold rounded
-        hover:bg-emerald-500 text-neutral-100
+        bg-green-400 py-3 font-semibold rounded
+        hover:bg-green-500 text-white
         focus-visible:outline outline-white
       `}
     >

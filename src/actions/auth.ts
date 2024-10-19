@@ -8,6 +8,7 @@ import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import bcrypt from 'bcryptjs'
+import { capitalizeEachWord } from "@/lib/utils";
 
 export async function getSession() {
   const session = await getIronSession<SessionData>(cookies(), sessionOptions)
@@ -39,7 +40,7 @@ export async function login(data: LoginSchemaType) {
 
   // create the session
   session.id = user.id
-  session.name = user.firstName
+  session.name = `${user.firstName} ${user.lastName}`
   await session.save()
 
   redirect('/')
@@ -65,15 +66,15 @@ export async function signup(data: SignupSchemaType) {
   const user = await prisma.user.create({
     data: {
       email: data.email,
-      firstName: data.firstName,
-      lastName: data.lastName,
+      firstName: capitalizeEachWord(data.firstName),
+      lastName: capitalizeEachWord(data.lastName),
       password: hashedPassword,
     }
   })
 
   // create the session
   session.id = user.id
-  session.name = user.firstName
+  session.name = `${user.firstName} ${user.lastName}`
   await session.save()
 
   redirect('/')
