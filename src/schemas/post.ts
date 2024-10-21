@@ -16,9 +16,10 @@ export const bodyTypes = [
 ] as const
 
 export const transmissions = [
-  'Manual Transmission',
-  'Automatic Transmission',
+  'Manual transmission',
+  'Automatic transmission',
   'CVT',
+  'DCT',
 ] as const
 
 export const fuelTypes = [
@@ -26,6 +27,11 @@ export const fuelTypes = [
   'Diesel',
   'Electric',
   'Hybrid',
+] as const
+
+export const vehicleConditions = [
+  'Brand new',
+  'Used',
 ] as const
 
 export const MAX_NUM_FILES = 2
@@ -69,7 +75,8 @@ const postSchema = z.object({
       files => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
       'Only .jpeg, .jpg, .png and .webp files are supported'
     ),
-  category: z.enum(category),
+  category: z.enum(category, {message: 'categ'}),
+  condition: z.enum(vehicleConditions, { message: 'Please select a condition' })
 })
 
 const vehicleSchema = z.object({
@@ -85,7 +92,7 @@ const vehicleSchema = z.object({
     .max(50, 'Must not exceed 50 characters'),
   year: z
     .any()
-    .refine(val => val != null, 'Please select a year' )
+    .refine(val => val != null, 'Please select a year')
     .refine(val => +val <= new Date().getFullYear() + 1, 'Please select a valid year'),
   mileage: z
     .string()
@@ -114,7 +121,14 @@ const vehicleSchema = z.object({
     .min(1, 'Please enter the engine of this vehicle')
     .max(50, 'Must not exceed 50 characters'),
   fuel: z.enum(fuelTypes, { message: 'Please select a fuel type' }),
-  cleanTitle: z.boolean(),
+  cleanTitle: z
+    .boolean()
+    .optional()
+    .default(false),
+  stock: z
+    .boolean()
+    .optional()
+    .default(false),
 })
 
 export const vehiclePostSchema = postSchema.merge(vehicleSchema)

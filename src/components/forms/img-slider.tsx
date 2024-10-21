@@ -1,18 +1,22 @@
-import React, { Fragment, useEffect, useState } from 'react'
-import { FieldValues, Path, UseFormWatch } from 'react-hook-form'
+import React, { Fragment, useState } from 'react'
+import { Control, FieldValues, Path, useWatch } from 'react-hook-form'
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa'
 
 type ImgSliderProps<T extends FieldValues> = {
-  watch: UseFormWatch<T>
   name: Path<T>
+  control: Control<T>
 }
 
 export default function ImgSlider<T extends FieldValues>({
-  watch,
   name,
+  control,
 }: ImgSliderProps<T>) {
   const [currentIndex, setCurrentIndex] = useState(0)
-  const fileImages = watch(name)
+
+  const fileImages = useWatch({
+    control,
+    name,
+  })
 
   // to make slider in sync with add or remove of uploaded files
   const currentImage = (fileImages && fileImages.length > 0) ? URL.createObjectURL(currentIndex >= fileImages.length ? fileImages[currentIndex - 1] : fileImages[currentIndex]) : ''
@@ -78,7 +82,7 @@ export default function ImgSlider<T extends FieldValues>({
         )) : (
           <div
             className={`
-              bg-neutral-300 rounded w-full
+              bg-neutral-100 rounded w-full
               flex flex-col justify-center items-center
               text-center
             `}

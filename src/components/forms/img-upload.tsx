@@ -1,5 +1,5 @@
 import React, { Fragment } from 'react'
-import { FieldValues, Path, PathValue, UseFormRegister, UseFormSetValue, UseFormTrigger, UseFormWatch } from 'react-hook-form'
+import { Control, FieldValues, Path, PathValue, UseFormRegister, UseFormSetValue, UseFormTrigger, UseFormWatch, useWatch } from 'react-hook-form'
 import { FaImages } from 'react-icons/fa'
 import { IoClose } from "react-icons/io5";
 import ErrorMsg from './error-msg';
@@ -10,18 +10,22 @@ type ImgUploadProps<T extends FieldValues> = {
   register: UseFormRegister<T>
   name: Path<T>
   setValue: UseFormSetValue<T>
-  watch: UseFormWatch<T>
   errorMsg: string | undefined
+  control: Control<T>
 }
 
 export default function ImgUpload<T extends FieldValues>({
   register,
   name,
   setValue,
-  watch,
   errorMsg,
+  control,
 }: ImgUploadProps<T>) {
-  const filesVal = watch(name)
+  // const filesVal = watch(name)
+  const filesVal = useWatch({
+    control,
+    name
+  })
   const fileImages = filesVal && Array.from(filesVal) as File[]
 
   return (
@@ -50,10 +54,10 @@ export default function ImgUpload<T extends FieldValues>({
                     p-1 rounded-full text-2xl top-1 right-1
                     focus-visible:outline outline-green-600 cursor-pointer
                   `}
-                    onClick={() => setValue(name, fileImages.toSpliced(index, 1) as PathValue<T, Path<T>>, { shouldValidate: true })}
+                    onClick={() => setValue(name, fileImages.toSpliced(index, 1) as PathValue<T, Path<T>>)}
                     onKeyDown={e => {
                       if (e.code === 'Enter')
-                        setValue(name, fileImages.toSpliced(index, 1) as PathValue<T, Path<T>>, { shouldValidate: true })
+                        setValue(name, fileImages.toSpliced(index, 1) as PathValue<T, Path<T>>)
                     }}
                   />
                 </li>
@@ -92,7 +96,7 @@ export default function ImgUpload<T extends FieldValues>({
                           const files = e.target.files
                           if (files) {
                             const filesArr = Array.from(files)
-                            setValue(name, [...fileImages, ...filesArr] as PathValue<T, Path<T>>, { shouldValidate: true })
+                            setValue(name, [...fileImages, ...filesArr] as PathValue<T, Path<T>>)
                           }
                         }}
                         className={`sr-only invisible`}
@@ -136,7 +140,7 @@ export default function ImgUpload<T extends FieldValues>({
                 const files = e.target.files
                 if (files) {
                   const filesArr = Array.from(files)
-                  setValue(name, filesArr as PathValue<T, Path<T>>, { shouldValidate: true })
+                  setValue(name, filesArr as PathValue<T, Path<T>>)
                 }
               }}
               className={`sr-only invisible`}

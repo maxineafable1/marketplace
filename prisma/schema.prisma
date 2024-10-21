@@ -25,21 +25,25 @@ model User {
 }
 
 model Post {
-  id       Int         @id @default(autoincrement())
-  title    String      @db.VarChar(200)
-  desc     String      @db.Text
-  price    Decimal     @db.Money
-  user     User        @relation(fields: [userId], references: [id])
-  userId   String      @db.Uuid
-  category String      @db.VarChar(50)
-  images   PostImage[]
-  vehicle  Vehicle?
+  id        Int         @id @default(autoincrement())
+  title     String      @db.VarChar(200)
+  desc      String      @db.Text
+  price     Decimal     @db.Money
+  user      User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String      @db.Uuid
+  category  String      @db.VarChar(50)
+  images    PostImage[]
+  vehicle   Vehicle?
+  sold      Boolean     @default(false) @db.Boolean
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  condition String      @db.VarChar(50)
 }
 
 model PostImage {
   id     Int    @id @default(autoincrement())
   image  String @db.Text
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId Int
 }
 
@@ -56,6 +60,7 @@ model Vehicle {
   engine     String  @db.VarChar(50)
   fuel       String  @db.VarChar(50)
   cleanTitle Boolean @db.Boolean
-  post       Post    @relation(fields: [postId], references: [id])
+  post       Post    @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId     Int     @unique
+  stock      Boolean @db.Boolean
 }

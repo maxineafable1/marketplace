@@ -14,43 +14,36 @@ export default async function Navbar() {
       <Link
         href='/'
         className={`
-          block mr-auto text-xl bg-neutral-300 rounded-full p-2 
-          hover:bg-neutral-400 hover:scale-105
+          block mr-auto text-xl bg-neutral-800 rounded-full p-2 
+          hover:bg-neutral-900 hover:scale-105
           focus-visible:outline outline-green-600
         `}
       >
-        <GoHomeFill className='fill-neutral-800' />
+        <GoHomeFill className='fill-white' />
       </Link>
       <div className='flex items-center gap-4'>
         {session.id ? (
           <>
-            <Link
+            <BtnLink
               href='/create'
-              className={`
-                flex items-center gap-2
-                bg-green-400 text-sm text-white font-semibold px-4 py-2 
-                rounded-full hover:bg-green-500 hover:scale-105 
-                focus-visible:outline outline-green-600
-              `}
+              isBtn
+              btnClr='bg-neutral-800'
+              btnClrHvr='hover:bg-neutral-900'
             >
               <FaPlus /> Create new listing
-            </Link>
+            </BtnLink>
             <ProfileIcon />
           </>
         ) : (
           <>
-            <Link
-              href='/login'
-              className={`
-                block font-semibold text-green-400 hover:text-green-500 
-                hover:scale-105 focus-visible:border-b-green-600 
-                outline-none border border-transparent
-              `}
-            >
+            <BtnLink href='/login'>
               Log in
-            </Link>
+            </BtnLink>
             <BtnLink
               href='/signup'
+              isBtn
+              btnClr='bg-neutral-800'
+              btnClrHvr='hover:bg-neutral-900'
             >
               Sign up
             </BtnLink>

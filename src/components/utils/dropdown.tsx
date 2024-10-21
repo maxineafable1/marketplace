@@ -2,7 +2,7 @@
 
 import { useOnClickOutside } from '@/hooks/useOnClickOutside'
 import React, { useEffect, useMemo, useRef, useState } from 'react'
-import { FieldValues, Path, PathValue, UseFormSetValue, UseFormWatch } from 'react-hook-form'
+import { Control, FieldValues, Path, PathValue, UseFormReset, UseFormResetField, UseFormSetValue, UseFormWatch, useWatch } from 'react-hook-form'
 import { FaCaretDown } from 'react-icons/fa'
 import ErrorMsg from '../forms/error-msg'
 
@@ -11,8 +11,8 @@ type DropdownProps<T extends FieldValues, U> = {
   defaultVal: string
   name: Path<T>
   setValue: UseFormSetValue<T>
-  watch: UseFormWatch<T>
   errMsg: string | undefined
+  control: Control<T>
 }
 
 export default function Dropdown<T extends FieldValues, U>({
@@ -20,8 +20,8 @@ export default function Dropdown<T extends FieldValues, U>({
   defaultVal,
   setValue,
   name,
-  watch,
   errMsg,
+  control,
 }: DropdownProps<T, U>) {
   const [isOpen, setIsOpen] = useState(false)
 
@@ -29,7 +29,11 @@ export default function Dropdown<T extends FieldValues, U>({
   const choiceDivRef = useRef<HTMLDivElement>(null)
   const ulRef = useRef<HTMLUListElement>(null)
 
-  const val = watch(name)
+  // const val = watch(name)
+  const val = useWatch({
+    control,
+    name
+  })
   const [currentIndex, setCurrentIndex] = useState(!val ? 0 : list.indexOf(val))
 
   function handleClickOutside() {
@@ -46,7 +50,8 @@ export default function Dropdown<T extends FieldValues, U>({
         case 'Enter': {
           !isOpen && setIsOpen(true)
           if (isOpen) {
-            setValue(name, list[currentIndex] as PathValue<T, Path<T>>, { shouldValidate: true })
+            setValue(name, list[currentIndex] as PathValue<T, Path<T>>)
+            setIsOpen(false)
           }
           return
         }
@@ -132,7 +137,7 @@ export default function Dropdown<T extends FieldValues, U>({
                       ${index === currentIndex && 'currentIndex bg-neutral-200'}
                     `}
                     onClick={() => {
-                      setValue(name, type as PathValue<T, Path<T>>, { shouldValidate: true })
+                      setValue(name, type as PathValue<T, Path<T>>)
                       setIsOpen(false)
                     }}
                     onMouseEnter={() => setCurrentIndex(index)}
